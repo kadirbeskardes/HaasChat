@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HaasChat.A_ChatPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView ItemsSource="{Binding .}" x:Name="_lChat">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding UserName}" TextColor="LightSkyBlue" Detail="{Binding Message}" DetailColor="Black"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Frame CornerRadius="40" BackgroundColor="LightBlue" HeightRequest="50" VerticalOptions="EndAndExpand">
+                <StackLayout Orientation="Horizontal">
+                    <Entry  HeightRequest="50" TextColor="Black" MinimumHeightRequest="50" x:Name="_entMessage" HorizontalOptions="FillAndExpand"/>
+                    <ImageButton Source="direct.png" Clicked="Button_Clicked" HeightRequest="40" WidthRequest="50"
+                                 HorizontalOptions="End" BackgroundColor="Transparent"
+                                 BorderWidth="5" BorderColor="Black" CornerRadius="50"/>
+                </StackLayout>
+            </Frame>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

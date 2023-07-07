@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HaasChat.HaasPopup">
+    
+    <Frame VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" HeightRequest="150" WidthRequest="200" BackgroundColor="LightGray" BorderColor="Black" CornerRadius="30">
+        <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <Label HorizontalOptions="Center" Text="Kullanıcı adı:" FontAttributes="Bold" TextDecorations="Underline"/>
+            <Entry x:Name="_username" WidthRequest="200" />
+            <Button Text="Giriş" Clicked="Button_Clicked"/>
+        </StackLayout>
+        
+    </Frame>
+</pages:PopupPage>
