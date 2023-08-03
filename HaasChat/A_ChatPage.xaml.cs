@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rg.Plugins.Popup.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,7 +29,7 @@ namespace HaasChat
         
         private async void Button_Clicked(object sender, EventArgs e)
         {
-            //chat.SendMessage()
+            //chat.SendMessageş()
             var chatobj=new Chat()
             {
                 Message=_entMessage.Text,
@@ -37,6 +38,11 @@ namespace HaasChat
             };
             await chat.SendMessage(chatobj,this.room.Key);
             _entMessage.Text = "";
+        }
+
+        private void ToolbarItem_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushPopupAsync(new HaasPopup(this.room.Key));
         }
     }
 }

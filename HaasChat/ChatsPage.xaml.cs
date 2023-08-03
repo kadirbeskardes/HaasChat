@@ -1,6 +1,7 @@
 ﻿using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -22,7 +23,7 @@ namespace HaasChat
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            bool waitUntilClosed = false;
+            /*bool waitUntilClosed = false;
             HaasPopup haasPopup = new HaasPopup();
             if (username == "nullname")
             {
@@ -30,19 +31,27 @@ namespace HaasChat
                 {
                     Navigation.PushPopupAsync(haasPopup);
                 });
-            }
-            if (waitUntilClosed)
-                await haasPopup.PopupClosedTask;
-            var _username = Preferences.Get("username", "nullname");
-            User user = new User();
-            user.UserName = _username;
-            user.chats = new List<string>();
-            username = _username;
-            await DC.newUser(user);
-            user = await DC.getUser(_username);
+                if (waitUntilClosed)
+                    await haasPopup.PopupClosedTask;
+                else
+                {
+                    username = Preferences.Get("username", "nullname");
+                user = new User();
+                user.UserName = username;
+                user.chats = new List<string>();
+                await DC.newUser(user);
+                }
+                
+            }*/
+            user = await DC.getUser(username);
             if (user.chats != null)
             {
-                var list = await DC.GetAllChat(user);
+                var list = await DC.GetAllChat(user.chats);
+                _lstx.BindingContext = list;
+            }
+            else
+            {
+                var list = new List<string>();
                 _lstx.BindingContext = list;
             }
         }
@@ -55,7 +64,11 @@ namespace HaasChat
         private async void ListView_Refreshing(object sender, EventArgs e)
         {
             user = await DC.getUser(username);
-            _lstx.BindingContext = await DC.GetAllChat(user);
+            if (user.chats != null)
+            {
+                var list = await DC.GetAllChat(user.chats);
+                _lstx.BindingContext = list;
+            }
             _lstx.IsRefreshing = false;
         }
 

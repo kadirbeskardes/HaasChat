@@ -1,6 +1,7 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Threading;
+using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace HaasChat
 {
@@ -10,7 +11,14 @@ namespace HaasChat
         {
             InitializeComponent();
 
-            App.Current.MainPage = new NavigationPage(new ChatsPage());
+            if (Preferences.Get("isLogged","false") == "false")
+            {
+                App.Current.MainPage = new NavigationPage(new SignUp());
+            }
+            else
+            {
+                App.Current.MainPage = new NavigationPage(new ChatsPage());
+            }
         }
 
         protected override void OnStart()

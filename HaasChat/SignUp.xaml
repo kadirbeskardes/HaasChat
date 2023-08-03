@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HaasChat.SignUp">
+    <ContentPage.Content>
+        <Frame BorderColor="Aqua" BackgroundColor="CadetBlue" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="30,30" CornerRadius="50">
+            <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                <Entry x:Name="_username" Placeholder="Kullanıcı adı..."/>
+                <Entry x:Name="mailKont" WidthRequest="270" Placeholder="Email..."/>
+                <Button x:Name="kayıtBut" Clicked="Button_Clicked" WidthRequest="50" MinimumWidthRequest="50" Text="Kayıt Ol" HeightRequest="50"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" x:Name="onayLay" IsVisible="false">
+                    <Entry x:Name="_onay" WidthRequest="100"/>
+                    <Button Text="Onayla" Clicked="Button_Clicked_1"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" x:Name="timLay" IsVisible="false">
+                    <Label x:Name="timer"  TextColor="Black"/>
+                </StackLayout>
+            </StackLayout>
+        </Frame>
+        
+    </ContentPage.Content>
+</ContentPage>

@@ -17,7 +17,16 @@ namespace HaasChat
         private async void Button_Clicked(object sender, EventArgs e)
         {
             var db = new DBChat();
-            await db.saveChat(new ChatRoom()
+            User user = new User();
+            user = await db.getUser(Preferences.Get("username", "null"));
+            if (user.chats == null)
+            {
+                user.chats = new List<string>();
+            }
+            user.chats.Add(await db.NewChat(_chatName.Text));
+            await db.newUser(user);
+            await Navigation.PopAsync();
+            /*await db.saveChat(new ChatRoom()
             {
                 Name = _chatName.Text
             });
@@ -25,7 +34,7 @@ namespace HaasChat
             User user = await db.getUser(Preferences.Get("username", "nullname"));
             if (user.chats == null)
             {
-                var list = new List<string>();
+                var list = new ObservableCollection<string>();
                 list.Add(_chatName.Text);
                 user.chats= list;
             }
@@ -33,8 +42,7 @@ namespace HaasChat
             {
                 user.chats.Add(_chatName.Text);
             }
-            await db.newUser(user);
-            await Navigation.PopAsync();
+            await db.newUser(user);*/
         }
     }
 }

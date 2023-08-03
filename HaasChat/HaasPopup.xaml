@@ -8,7 +8,7 @@
         <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
             <Label HorizontalOptions="Center" Text="Kullanıcı adı:" FontAttributes="Bold" TextDecorations="Underline"/>
             <Entry x:Name="_username" WidthRequest="200" />
-            <Button Text="Giriş" Clicked="Button_Clicked"/>
+            <Button Text="Ekle" Clicked="Button_Clicked"/>
         </StackLayout>
         
     </Frame>
