@@ -23,6 +23,16 @@ namespace HaasChat
                 room = data;
 
             });*/
+            
+            bilgi.Text= $"Ayrıntılı bilgi ({room.Name})";
+            if (room.Admins.Contains(Preferences.Get("username", "username")))
+            {
+                add.IsEnabled = true;
+            }
+            else
+            {
+                add.IsEnabled = false;
+            }
             this.room = room;
             _lChat.BindingContext = chat.chats(room.Key);
         }
@@ -43,6 +53,11 @@ namespace HaasChat
         private void ToolbarItem_Clicked(object sender, EventArgs e)
         {
             Navigation.PushPopupAsync(new HaasPopup(this.room.Key));
+        }
+
+        private void ToolbarItem_Clicked_1(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new ChatDetailPage(this.room.Key));
         }
     }
 }

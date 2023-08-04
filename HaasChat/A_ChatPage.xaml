@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HaasChat.A_ChatPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="+" Clicked="ToolbarItem_Clicked" />
+        <ToolbarItem x:Name="bilgi" Clicked="ToolbarItem_Clicked_1" Order="Primary"/>
+        <ToolbarItem x:Name="add" Text="+" Clicked="ToolbarItem_Clicked" />
+        
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>

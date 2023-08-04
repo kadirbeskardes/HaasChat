@@ -23,7 +23,7 @@ namespace HaasChat
             {
                 user.chats = new List<string>();
             }
-            user.chats.Add(await db.NewChat(_chatName.Text));
+            user.chats.Add(await db.NewChat(_chatName.Text,user.UserName));
             await db.newUser(user);
             await Navigation.PopAsync();
             /*await db.saveChat(new ChatRoom()

@@ -23,26 +23,6 @@ namespace HaasChat
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            /*bool waitUntilClosed = false;
-            HaasPopup haasPopup = new HaasPopup();
-            if (username == "nullname")
-            {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    Navigation.PushPopupAsync(haasPopup);
-                });
-                if (waitUntilClosed)
-                    await haasPopup.PopupClosedTask;
-                else
-                {
-                    username = Preferences.Get("username", "nullname");
-                user = new User();
-                user.UserName = username;
-                user.chats = new List<string>();
-                await DC.newUser(user);
-                }
-                
-            }*/
             user = await DC.getUser(username);
             if (user.chats != null)
             {
@@ -82,10 +62,7 @@ namespace HaasChat
             if (_lstx.SelectedItem != null)
             {
                 var selectChatRoom = _lstx.SelectedItem as ChatRoom;
-                //MessagingCenter.Send<ChatsPage, ChatRoom>(this,"ChatRoomProp", selectChatRoom);
                 await Navigation.PushAsync(new A_ChatPage(selectChatRoom));
-                // Navigation.PushAsync(new A_ChatPage());
-
             }
         }
     }
