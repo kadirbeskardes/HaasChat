@@ -1,6 +1,7 @@
 ﻿using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,12 +19,6 @@ namespace HaasChat
         internal A_ChatPage(ChatRoom room)
         {
             InitializeComponent();
-            /*MessagingCenter.Subscribe<ChatsPage, ChatRoom>(this, "ChatRoomProp", (page, data) =>
-            {
-                room = data;
-
-            });*/
-            
             bilgi.Text= $"Ayrıntılı bilgi ({room.Name})";
             if (room.Admins.Contains(Preferences.Get("username", "username")))
             {
@@ -33,23 +28,25 @@ namespace HaasChat
             {
                 add.IsEnabled = false;
             }
+            this.Resources.Add("UsernameToColorConverter", new UsernameToColorConverter());
             this.room = room;
-            _lChat.BindingContext = chat.chats(room.Key);
+            ChatListView.BindingContext = this;
+            ChatListView.ItemsSource= chat.chats(room.Key);
         }
         
-        private async void Button_Clicked(object sender, EventArgs e)
+        
+        private async void OnSendMessageButtonClicked(object sender, EventArgs e)
         {
-            //chat.SendMessageş()
-            var chatobj=new Chat()
-            {
-                Message=_entMessage.Text,
-                UserName=Preferences.Get("username","username"),
-                Date=DateTime.Now.ToShortTimeString()
-            };
-            await chat.SendMessage(chatobj,this.room.Key);
-            _entMessage.Text = "";
-        }
+            string newMessageText = MessageEntry.Text;
 
+            if (!string.IsNullOrWhiteSpace(newMessageText))
+            {
+                await chat.SendMessage((new Chat
+                {
+                    UserName = Preferences.Get("username", "username"), Message = newMessageText, Date = DateTime.Now }),this.room.Key);
+                MessageEntry.Text = string.Empty;
+            }
+        }
         private void ToolbarItem_Clicked(object sender, EventArgs e)
         {
             Navigation.PushPopupAsync(new HaasPopup(this.room.Key));
@@ -60,4 +57,25 @@ namespace HaasChat
             Navigation.PushAsync(new ChatDetailPage(this.room.Key));
         }
     }
+    public class UsernameToColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string username = value as string;
+            if (username == Preferences.Get("username", "username"))
+            {
+                return Color.DodgerBlue;
+            }
+            else
+            {
+                return Color.Red;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

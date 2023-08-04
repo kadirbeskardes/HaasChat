@@ -8,23 +8,48 @@
         
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
-            <ListView ItemsSource="{Binding .}" x:Name="_lChat">
+        <StackLayout BackgroundColor="LightGray">
+            <ListView x:Name="ChatListView"
+                  HasUnevenRows="True"
+                  SeparatorVisibility="None"
+                  BackgroundColor="Transparent">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Text="{Binding UserName}" TextColor="LightSkyBlue" Detail="{Binding Message}" DetailColor="Black"/>
+                        <ViewCell>
+                            <StackLayout Padding="10" BackgroundColor="White" Margin="5">
+                                <Label Text="{Binding UserName}"
+                                   FontAttributes="Bold"
+                                   TextColor="{Binding UserName, Converter={StaticResource UsernameToColorConverter}}" />
+                                <Label Text="{Binding Message}"
+                                   VerticalOptions="CenterAndExpand"
+                                   LineBreakMode="WordWrap"
+                                   Margin="0,5,0,0"
+                                   TextColor="Black" />
+                                <Label Text="{Binding Date, StringFormat='{0:HH:mm}'}"
+                                   FontSize="Small"
+                                   HorizontalOptions="EndAndExpand"
+                                   TextColor="Gray" />
+                            </StackLayout>
+                        </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Frame CornerRadius="40" BackgroundColor="LightBlue" HeightRequest="50" VerticalOptions="EndAndExpand">
-                <StackLayout Orientation="Horizontal">
-                    <Entry  HeightRequest="50" TextColor="Black" MinimumHeightRequest="50" x:Name="_entMessage" HorizontalOptions="FillAndExpand"/>
-                    <ImageButton Source="direct.png" Clicked="Button_Clicked" HeightRequest="40" WidthRequest="50"
-                                 HorizontalOptions="End" BackgroundColor="Transparent"
-                                 BorderWidth="5" BorderColor="Black" CornerRadius="50"/>
-                </StackLayout>
-            </Frame>
-            
+            <StackLayout Orientation="Horizontal" Margin="10">
+                <Entry x:Name="MessageEntry"
+                   Placeholder="Type a message..."
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="FillAndExpand"
+                   BackgroundColor="White"
+                   Margin="0,0,5,0"
+                   TextColor="Black"
+                   PlaceholderColor="Gray" />
+                <Button Text="Send"
+                    Clicked="OnSendMessageButtonClicked"
+                    VerticalOptions="CenterAndExpand"
+                    BackgroundColor="DodgerBlue"
+                    TextColor="White" />
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
+
 </ContentPage>
