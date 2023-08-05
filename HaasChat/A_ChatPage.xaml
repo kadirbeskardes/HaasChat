@@ -1,54 +1,67 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:HaasChat"
              x:Class="HaasChat.A_ChatPage">
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="bilgi" Clicked="ToolbarItem_Clicked_1" Order="Primary"/>
         <ToolbarItem x:Name="add" Text="+" Clicked="ToolbarItem_Clicked" />
-        
+
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout BackgroundColor="LightGray">
-            <ListView x:Name="ChatListView"
-                  HasUnevenRows="True"
-                  SeparatorVisibility="None"
-                  BackgroundColor="Transparent">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Padding="10" BackgroundColor="White" Margin="5">
-                                <Label Text="{Binding UserName}"
-                                   FontAttributes="Bold"
-                                   TextColor="{Binding UserName, Converter={StaticResource UsernameToColorConverter}}" />
-                                <Label Text="{Binding Message}"
-                                   VerticalOptions="CenterAndExpand"
-                                   LineBreakMode="WordWrap"
-                                   Margin="0,5,0,0"
-                                   TextColor="Black" />
-                                <Label Text="{Binding Date, StringFormat='{0:HH:mm}'}"
-                                   FontSize="Small"
-                                   HorizontalOptions="EndAndExpand"
-                                   TextColor="Gray" />
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <StackLayout Orientation="Horizontal" Margin="10">
-                <Entry x:Name="MessageEntry"
+        <StackLayout Orientation="Vertical" Spacing="0">
+
+            <StackLayout BackgroundColor="LightGray" Margin="10">
+                <!-- Replace ListView with AutoScrollListView -->
+                <ListView x:Name="ChatListView"
+                                          HasUnevenRows="True"
+                                          SeparatorVisibility="None"
+                                          BackgroundColor="Transparent">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame Padding="10"
+                                       Margin="5"
+                                       CornerRadius="20"
+                                       BackgroundColor="{Binding UserName, Converter={StaticResource IsMyMessageToColorConverter}}"
+                                       HorizontalOptions="{Binding UserName, Converter={StaticResource IsMyMessageToHorizontalOptionsConverter}}">
+                                    <StackLayout>
+                                        <Label Text="{Binding UserName}"
+                                           FontAttributes="Bold"
+                                           HorizontalTextAlignment="{Binding UserName, Converter={StaticResource IsMyMessageToTextAlignmentConverter}}"
+                                           TextColor="{Binding UserName, Converter={StaticResource UsernameToColorConverter}}" />
+                                        <Label Text="{Binding Message}"
+                                           VerticalOptions="CenterAndExpand"
+                                           LineBreakMode="WordWrap"
+                                           Margin="0,5,0,0"
+                                           TextColor="Black"
+                                           HorizontalTextAlignment="{Binding UserName, Converter={StaticResource IsMyMessageToTextAlignmentConverter}}" />
+                                        <Label Text="{Binding Date, StringFormat='{0:HH:mm}'}"
+                                           FontSize="Small"
+                                           HorizontalOptions="EndAndExpand"
+                                           TextColor="Gray" />
+                                    </StackLayout>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" BackgroundColor="White" Padding="10">
+                    <Entry x:Name="MessageEntry"
                    Placeholder="Type a message..."
                    VerticalOptions="CenterAndExpand"
                    HorizontalOptions="FillAndExpand"
                    BackgroundColor="White"
-                   Margin="0,0,5,0"
                    TextColor="Black"
                    PlaceholderColor="Gray" />
-                <Button Text="Send"
+                    <Button Text="Send"
                     Clicked="OnSendMessageButtonClicked"
                     VerticalOptions="CenterAndExpand"
                     BackgroundColor="DodgerBlue"
                     TextColor="White" />
             </StackLayout>
+
         </StackLayout>
     </ContentPage.Content>
 

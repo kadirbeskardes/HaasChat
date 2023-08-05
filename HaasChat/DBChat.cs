@@ -1,6 +1,7 @@
 ﻿using Firebase.Database;
 using Firebase.Database.Query;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -75,6 +76,17 @@ namespace HaasChat
         public async Task  saveChat(ChatRoom _newChat,string _key)
         {
             await client.Child("HaasChatApp"+"/"+_key).PutAsync(JsonConvert.SerializeObject(_newChat));
+        }
+
+        public async Task addParToChat(string _username, string _key)
+        {
+            var room = await client.Child("HaasChatApp" + "/" + _key).OnceSingleAsync<ChatRoom>();
+            if (room.Partpicatinas == null)
+            {
+                room.Partpicatinas = new ObservableCollection<string>();
+            }
+            room.Partpicatinas.Add(_username);
+            await client.Child("HaasChatApp").Child(_key).Child("Partpicatinas").PutAsync(room.Partpicatinas);
         }
         public async Task SendMessage(Chat ch, string _room)
         {

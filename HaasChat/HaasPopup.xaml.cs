@@ -28,13 +28,7 @@ namespace HaasChat
         {
             DBChat chat = new DBChat();
             User user = await chat.getUser(_username.Text);
-            ChatRoom room = new ChatRoom();
-            room = await chat.GetChat(_key);
-            if (room.Partpicatinas == null)
-            {
-                room.Partpicatinas = new ObservableCollection<string>();
-            }
-            room.Partpicatinas.Add(_username.Text);
+            
             if (user != null)
             {
                 if (user.chats == null)
@@ -42,7 +36,7 @@ namespace HaasChat
                     user.chats = new List<string>();
                 }
                 user.chats.Add(_key);
-                await chat.saveChat(room,_key);
+                await chat.addParToChat(_username.Text,_key);
                 await chat.newUser(user);
                 await Navigation.PopPopupAsync();
             }
