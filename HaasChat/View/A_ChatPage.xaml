@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:HaasChat"
+             x:Class="HaasChat.A_ChatPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="bilgi" Clicked="ToolbarItem_Clicked_1" Order="Primary"/>
+        <ToolbarItem x:Name="add" Text="+" Clicked="ToolbarItem_Clicked" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        
+        <StackLayout Spacing="0">
+
+            <StackLayout BackgroundColor="LightGray" Padding="10">
+                <ListView x:Name="ChatListView"
+                          HasUnevenRows="True"
+                          SeparatorVisibility="None"
+                          BackgroundColor="White"
+                          ItemsSource="{Binding ChatList}"
+                          CachingStrategy="RecycleElement">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame Padding="5"
+                                       Margin="5"
+                                       CornerRadius="10"
+                                       BackgroundColor="{Binding UserName, Converter={StaticResource IsMyMessageToColorConverter}}"
+                                       HorizontalOptions="{Binding UserName, Converter={StaticResource IsMyMessageToHorizontalOptionsConverter}}">
+                                    <StackLayout>
+                                        <Label Text="{Binding UserName}"
+                                               FontAttributes="Bold"
+                                               FontSize="Micro"
+                                               TextColor="{Binding UserName, Converter={StaticResource UsernameToColorConverter}}" />
+                                        <Label Text="{Binding Message}"
+                                               LineBreakMode="WordWrap"
+                                               TextColor="Black"
+                                               FontSize="Body" />
+                                        <Image Source="{Binding ImageUrl}" 
+                                               IsVisible="{Binding ImageUrl, Converter={StaticResource HasImageConverter}}"
+                                               Aspect="AspectFit"
+                                               HeightRequest="200"
+                                               Margin="0,5,0,0" />
+                                        <Label Text="{Binding Date, StringFormat='{0:HH:mm}'}"
+                                               FontSize="Micro"
+                                               TextColor="Gray"
+                                               HorizontalOptions="EndAndExpand" />
+                                    </StackLayout>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" BackgroundColor="LightGray" Padding="5" Spacing="5">
+                <Entry x:Name="MessageEntry"
+                       Placeholder="Bir mesaj yazın..."
+                       VerticalOptions="CenterAndExpand"
+                       HorizontalOptions="FillAndExpand"
+                       BackgroundColor="White"
+                       TextColor="Black"
+                       PlaceholderColor="Gray" />
+                <Button Text="Gönder"
+                        Clicked="OnSendMessageButtonClicked"
+                        VerticalOptions="CenterAndExpand"
+                        BackgroundColor="DodgerBlue"
+                        TextColor="White"
+                        WidthRequest="100" />
+                <Button Text="Resim Seç"
+                        Clicked="OnPickImageButtonClicked"
+                        VerticalOptions="CenterAndExpand"
+                        BackgroundColor="DarkGreen"
+                        TextColor="White"
+                        WidthRequest="100" />
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
+

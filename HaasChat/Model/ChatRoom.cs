@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 
-namespace HaasChat
+namespace HaasChat.Model
 {
     internal class ChatRoom
     {

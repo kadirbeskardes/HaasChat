@@ -1,32 +1,48 @@
-﻿using System;
+﻿using HaasChat.Model;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
-using System.Timers;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using System.Threading;
 
 namespace HaasChat
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SignUp : ContentPage
+    public partial class LoginPage : ContentPage
     {
-        static System.Timers.Timer tim1 = new System.Timers.Timer();
-        public SignUp()
-        {
-            InitializeComponent();
-            Content.BindingContext = this;
-        }
+        static string userEmailDomain;
+        static string userEmail;
+        static DBChat DBChat = new DBChat();
         int confirm = 0;
         int count = 0;
-        private async void Button_Clicked(object sender, EventArgs e)
+
+        public LoginPage()
         {
-            if (string.IsNullOrEmpty( _username.Text)||string.IsNullOrEmpty(mailKont.Text))
+            InitializeComponent();
+        }
+
+        private async void OnLoginClicked(object sender, EventArgs e)
+        {
+            string username = usernameEntry.Text;
+            if (string.IsNullOrEmpty(username))
             {
                 return;
             }
+
+            User user = await DBChat.getUser(username);
+            if (user == null)
+            {
+                return;
+            }
+
+            userEmail = user.Email;
+            if (!string.IsNullOrEmpty(userEmail))
+            {
+                userEmailDomain = SansurleMailAdresi(userEmail);
+            }
+
             try
             {
                 confirm = new Random().Next(100000, 999999);
@@ -39,7 +55,8 @@ namespace HaasChat
                     UseDefaultCredentials = false,
                     Credentials = new NetworkCredential("haaschat50@gmail.com", "jhljakycmckvahmj")
                 };
-                using (var message = new MailMessage("haaschat50@gmail.com", mailKont.Text)
+
+                using (var message = new MailMessage("haaschat50@gmail.com", userEmail)
                 {
                     Subject = "Confirm e mail",
                     Body = $"{confirm}"
@@ -49,59 +66,41 @@ namespace HaasChat
                 }
 
                 count = 60;
-                mailKont.IsReadOnly = true;
-                _username.IsReadOnly = true;
-                kayıtBut.IsEnabled = false;
+                usernameEntry.IsReadOnly = true;
+                girisYap.IsEnabled = false;
                 timLay.IsVisible = true;
                 onayLay.IsVisible = true;
-
 
                 Device.StartTimer(TimeSpan.FromSeconds(1), () =>
                 {
                     count--;
-                    if (count>10)
+                    timer.Text = $"{userEmailDomain} adresine bir doğrulama kodu gönderildi.\n00:{count:00}";
+                    if (count == 0)
                     {
-                        timer.Text = $"00:{count.ToString()}";
+                        confirm = 0;
+                        usernameEntry.IsReadOnly = false;
+                        girisYap.IsEnabled = true;
+                        timLay.IsVisible = false;
+                        onayLay.IsVisible = false;
+                        DisplayAlert("Zaman aşımı", "Kodun geçerlilik süresi sona erdi.", "Tamam");
+                        return false;
                     }
-                    else
-                    {
-                        timer.Text = $"00:0{count.ToString()}";
-                        if (count == 0)
-                        {
-                            confirm = 0;
-                            mailKont.IsReadOnly = false;
-                            _username.IsReadOnly = false;
-                            kayıtBut.IsEnabled = true;
-                            onayLay.IsVisible = false;
-                            timLay.IsVisible = false;
-                            DisplayAlert("Zaman aşımı", "Kodun geçerlilik süresi sona erdi.", "Tamam");
-                            return false;
-                        }
-                    }
-                    
+
                     return true;
                 });
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Bir hata oluştu", $"{ex.Message} hatası oluştu.", "Tamam");
-
             }
         }
-        
 
         private async void Button_Clicked_1(object sender, EventArgs e)
         {
             if (_onay.Text == confirm.ToString())
             {
-                DBChat chat = new DBChat();
-                User user = new User();
-                user = new User();
-                user.UserName = _username.Text;
-                user.chats = new List<string>();
-                await chat.newUser(user);
                 Preferences.Set("isLogged", "true");
-                Preferences.Set("username", _username.Text);
+                Preferences.Set("username", usernameEntry.Text);
                 App.Current.MainPage = new NavigationPage(new ChatsPage());
             }
             else
@@ -109,6 +108,17 @@ namespace HaasChat
                 _onay.Text = "";
                 await DisplayAlert("Yanlış kod...", "Yanlış doğrulama kodu girdiniz. Tekrar deneyiniz.", "Tamam");
             }
+        }
+
+        private string SansurleMailAdresi(string email)
+        {
+            int atSymbolIndex = email.IndexOf('@');
+            if (atSymbolIndex >= 3)
+            {
+                string sansurluKisim = new string('*', atSymbolIndex - 3);
+                return sansurluKisim + email.Substring(atSymbolIndex - 2);
+            }
+            return email;
         }
     }
 }

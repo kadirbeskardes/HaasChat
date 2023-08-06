@@ -1,13 +1,20 @@
-﻿using Rg.Plugins.Popup.Extensions;
+﻿using Firebase.Storage;
+using HaasChat.Model;
+using Plugin.Media;
+using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using static Xamarin.Essentials.Permissions;
 
 namespace HaasChat
 {
@@ -16,7 +23,8 @@ namespace HaasChat
     {
         DBChat chat = new DBChat();
         ChatRoom room = new ChatRoom();
-        static ObservableCollection<Chat> chatlist=new ObservableCollection<Chat>();
+        static ObservableCollection<Chat> chatlist = new ObservableCollection<Chat>();
+
         internal A_ChatPage(ChatRoom room)
         {
             InitializeComponent();
@@ -33,6 +41,7 @@ namespace HaasChat
             this.Resources.Add("IsMyMessageToColorConverter", new IsMyMessageToColorConverter());
             this.Resources.Add("IsMyMessageToHorizontalOptionsConverter", new IsMyMessageToHorizontalOptionsConverter());
             this.Resources.Add("IsMyMessageToTextAlignmentConverter", new IsMyMessageToTextAlignmentConverter());
+            this.Resources.Add("HasImageConverter", new HasImageConverter());
             this.room = room;
             ChatListView.BindingContext = this;
             chatlist = chat.chats(room.Key);
@@ -66,14 +75,70 @@ namespace HaasChat
         {
             Navigation.PushAsync(new ChatDetailPage(this.room.Key));
         }
+
+
         private async Task ScrollToLastItem()
         {
             if (chatlist.Count > 0)
             {
                 var lastItem = chatlist[chatlist.Count - 1];
-                await Task.Delay(100); 
+                await Task.Delay(100);
                 ChatListView.ScrollTo(lastItem, ScrollToPosition.End, false);
             }
+        }
+        private async void OnPickImageButtonClicked(object sender, EventArgs e)
+        {
+            await PickAndUploadImage();
+        }
+
+        private async Task PickAndUploadImage()
+        {
+            try
+            {
+                if (!CrossMedia.Current.IsPickPhotoSupported)
+                {
+                    await DisplayAlert("Not supported", "Picking a photo is not supported on this device.", "OK");
+                    return;
+                }
+
+                var file = await CrossMedia.Current.PickPhotoAsync();
+
+                if (file == null)
+                    return;
+
+                string imageUrl = await UploadImageToFirebaseStorage(file.GetStream());
+
+                await SendMessageWithImage(imageUrl);
+
+                file.Dispose();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", "An error occurred: " + ex.Message, "OK");
+            }
+        }
+        private async Task SendMessageWithImage(string imageUrl)
+        {
+            await chat.SendMessage(new Chat
+            {
+                UserName = Preferences.Get("username", "username"),
+                Date = DateTime.Now,
+                ImageUrl = imageUrl
+            }, this.room.Key);
+
+            await ScrollToLastItem();
+        }
+
+        private async Task<string> UploadImageToFirebaseStorage(Stream imageStream)
+        {
+            var storage = new FirebaseStorage("haaschat-9a85d.appspot.com");
+
+            string fileName = $"{Guid.NewGuid()}.jpg";
+
+            var imageReference = storage.Child("chat_resim").Child(fileName);
+
+            var downloadUrl = await imageReference.PutAsync(imageStream);
+            return downloadUrl;
         }
     }
     public class UsernameToColorConverter : IValueConverter
@@ -122,7 +187,8 @@ namespace HaasChat
             if (username == Preferences.Get("username", "username"))
             {
                 return LayoutOptions.EndAndExpand;
-            }else return LayoutOptions.StartAndExpand;
+            }
+            else return LayoutOptions.StartAndExpand;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -139,7 +205,8 @@ namespace HaasChat
             if (username == Preferences.Get("username", "username"))
             {
                 return TextAlignment.End;
-            }return TextAlignment.Start;
+            }
+            return TextAlignment.Start;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -147,4 +214,21 @@ namespace HaasChat
             throw new NotImplementedException();
         }
     }
+
+    public class HasImageConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string imageUrl = value as string;
+            return !string.IsNullOrEmpty(imageUrl);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }
+
+

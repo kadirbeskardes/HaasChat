@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HaasChat.LoginPage">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#f7f7f7" Padding="20" VerticalOptions="CenterAndExpand">
+            <Frame BackgroundColor="White" Padding="20" CornerRadius="10" HasShadow="True">
+                <StackLayout Spacing="15">
+                    <Image Source="appLogo.png" HorizontalOptions="CenterAndExpand"/>
+
+                    <Entry x:Name="usernameEntry" Placeholder="Kullanıcı Adı" TextColor="Black" PlaceholderColor="#808080" BackgroundColor="White"  HeightRequest="40"/>
+                    <Button x:Name="girisYap" Text="Giriş Yap" Clicked="OnLoginClicked" BackgroundColor="#007bff" TextColor="White" CornerRadius="8" HeightRequest="40"/>
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" x:Name="onayLay" IsVisible="false" Spacing="15">
+                        <Entry x:Name="_onay" Placeholder="Doğrulama Kodu" WidthRequest="100" TextColor="Black" PlaceholderColor="#808080" BackgroundColor="White"  HeightRequest="40"/>
+                        <Button Text="Onayla" Clicked="Button_Clicked_1" BackgroundColor="#28a745" TextColor="White" CornerRadius="8" HeightRequest="40"/>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" x:Name="timLay" IsVisible="false">
+                        <Label x:Name="timer" Text="Doğrulama kodu gönderildi." TextColor="Black"/>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

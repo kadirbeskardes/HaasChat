@@ -13,7 +13,7 @@ namespace HaasChat
 
             if (Preferences.Get("isLogged","false") == "false")
             {
-                App.Current.MainPage = new NavigationPage(new SignUp());
+                App.Current.MainPage = new NavigationPage(new LoginPage());
             }
             else
             {
