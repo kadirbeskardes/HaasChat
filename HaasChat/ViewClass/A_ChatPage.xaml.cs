@@ -97,7 +97,7 @@ namespace HaasChat
             {
                 if (!CrossMedia.Current.IsPickPhotoSupported)
                 {
-                    await DisplayAlert("Not supported", "Picking a photo is not supported on this device.", "OK");
+                    await DisplayAlert("Destek yok", "Seçilen medya bu cihazda desteklenmiyor.", "OK");
                     return;
                 }
 
@@ -114,7 +114,7 @@ namespace HaasChat
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", "An error occurred: " + ex.Message, "OK");
+                await DisplayAlert("Hata", "Bir hata oluştu: " + ex.Message, "OK");
             }
         }
         private async Task SendMessageWithImage(string imageUrl)
