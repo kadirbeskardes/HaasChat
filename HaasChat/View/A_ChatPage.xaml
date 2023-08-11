@@ -7,25 +7,28 @@
         <ToolbarItem x:Name="bilgi" Clicked="ToolbarItem_Clicked_1" Order="Primary"/>
         <ToolbarItem x:Name="add" Text="+" Clicked="ToolbarItem_Clicked" />
     </ContentPage.ToolbarItems>
+    <!-- Your other XAML declarations -->
+
     <ContentPage.Content>
-        
         <StackLayout Spacing="0">
 
             <StackLayout BackgroundColor="LightGray" Padding="10">
                 <ListView x:Name="ChatListView"
-                          HasUnevenRows="True"
-                          SeparatorVisibility="None"
-                          BackgroundColor="White"
-                          ItemsSource="{Binding ChatList}"
-                          CachingStrategy="RecycleElement">
+                      HasUnevenRows="True"
+                      SeparatorVisibility="None"
+                      BackgroundColor="White"
+                      ItemsSource="{Binding ChatList}"
+                      CachingStrategy="RecycleElement">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Frame Padding="5"
-                                       Margin="5"
-                                       CornerRadius="10"
-                                       BackgroundColor="{Binding UserName, Converter={StaticResource IsMyMessageToColorConverter}}"
-                                       HorizontalOptions="{Binding UserName, Converter={StaticResource IsMyMessageToHorizontalOptionsConverter}}">
+                                <Frame Padding="10"
+                                   Margin="5"
+                                   CornerRadius="15"
+                                   BackgroundColor="{Binding UserName, Converter={StaticResource IsMyMessageToColorConverter}}"
+                                   HorizontalOptions="{Binding UserName, Converter={StaticResource IsMyMessageToHorizontalOptionsConverter}}"
+                                   HasShadow="True">
+
                                     <StackLayout>
                                         <Label Text="{Binding UserName}"
                                                FontAttributes="Bold"
@@ -52,29 +55,38 @@
                 </ListView>
             </StackLayout>
 
-            <StackLayout Orientation="Horizontal" BackgroundColor="LightGray" Padding="5" Spacing="5">
-                <Entry x:Name="MessageEntry"
-                       Placeholder="Bir mesaj yazın..."
-                       VerticalOptions="CenterAndExpand"
-                       HorizontalOptions="FillAndExpand"
-                       BackgroundColor="White"
-                       TextColor="Black"
-                       PlaceholderColor="Gray" />
-                <Button Text="Gönder"
-                        Clicked="OnSendMessageButtonClicked"
-                        VerticalOptions="CenterAndExpand"
-                        BackgroundColor="DodgerBlue"
-                        TextColor="White"
-                        WidthRequest="100" />
-                <Button Text="Resim Seç"
-                        Clicked="OnPickImageButtonClicked"
-                        VerticalOptions="CenterAndExpand"
-                        BackgroundColor="DarkGreen"
-                        TextColor="White"
-                        WidthRequest="100" />
+            <StackLayout Orientation="Horizontal" BackgroundColor="LightGray" Padding="10" Spacing="10">
+                <Frame CornerRadius="20"
+           VerticalOptions="FillAndExpand"
+                                      HorizontalOptions="FillAndExpand"
+           BackgroundColor="White"
+           Padding="0">
+                    <Entry x:Name="MessageEntry"
+               Placeholder="Bir mesaj yazın..."
+               VerticalOptions="FillAndExpand"
+               HorizontalOptions="FillAndExpand"
+               TextColor="Black"
+               PlaceholderColor="Gray"
+               BackgroundColor="Transparent"/>
+                </Frame>
+                <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="End">
+                    <ImageButton Source="send.png"
+                     Clicked="OnSendMessageButtonClicked"
+                     BackgroundColor="DodgerBlue"
+                     WidthRequest="50"
+                     HeightRequest="50"
+                     CornerRadius="25"/>
+                    <ImageButton Source="sendPicture.png"
+                     Clicked="OnPickImageButtonClicked"
+                     BackgroundColor="DarkGreen"
+                     HeightRequest="50"
+                     WidthRequest="50"
+                     CornerRadius="25"/>
+                </StackLayout>
             </StackLayout>
+
 
         </StackLayout>
     </ContentPage.Content>
-</ContentPage>
 
+</ContentPage>

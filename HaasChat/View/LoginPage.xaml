@@ -15,12 +15,12 @@
                         <Entry x:Name="_onay" Placeholder="Doğrulama Kodu" WidthRequest="100" TextColor="Black" PlaceholderColor="#808080" BackgroundColor="White"  HeightRequest="40"/>
                         <Button Text="Onayla" Clicked="Button_Clicked_1" BackgroundColor="#28a745" TextColor="White" CornerRadius="8" HeightRequest="40"/>
                     </StackLayout>
-
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" x:Name="timLay" IsVisible="false">
                         <Label x:Name="timer" Text="Doğrulama kodu gönderildi." TextColor="Black"/>
                     </StackLayout>
                 </StackLayout>
             </Frame>
+            <Button Text="Kayıt Ol" Clicked="OnRegisterClicked" HorizontalOptions="FillAndExpand" Margin="20" BackgroundColor="ForestGreen"  TextColor="White" CornerRadius="8" HeightRequest="40"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

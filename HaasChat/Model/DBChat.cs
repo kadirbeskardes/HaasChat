@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace HaasChat.Model
 {
@@ -20,14 +21,6 @@ namespace HaasChat.Model
             client = new FirebaseClient("https://haaschat-9a85d-default-rtdb.europe-west1.firebasedatabase.app/");
         }
 
-        /*public async Task<List<ChatRoom>> GetAllChat(User _user)
-        {
-            return (await client.Child("HaasChatApp").OnceAsync<ChatRoom>()).Where(x => _user.chats.Contains(x.Object.Name)).Select((item) => new ChatRoom
-            {
-                Key = item.Key,
-                Name = item.Object.Name
-            }).ToList();
-        }*/
         public async Task<List<ChatRoom>> GetAllChat(List<string> _chats)
         {
             return (await client.Child("HaasChatApp").OnceAsync<ChatRoom>())
@@ -37,6 +30,7 @@ namespace HaasChat.Model
                 Name = item.Object.Name,
                 Admins = item.Object.Admins,
                 Partpicatinas = item.Object.Partpicatinas,
+                ImageURL=item.Object.ImageURL
             }).ToList();
         }
 
@@ -59,12 +53,13 @@ namespace HaasChat.Model
             return true;
         }
 
-        public async Task<string> NewChat(string _name, string _username)
+        public async Task<string> NewChat(string _name, string _username,string url)
         {
             await client.Child("HaasChatApp" + "/").PostAsync(JsonConvert.SerializeObject(new ChatRoom()
             {
                 Name = _name,
-                Admins = new ObservableCollection<string> { _username }
+                Admins = new ObservableCollection<string> { _username },
+                ImageURL=url
             }));
             return (await client.Child("HaasChatApp").OnceAsync<ChatRoom>())
             .Where(x => x.Object.Name == _name).Select((item) => new ChatRoom

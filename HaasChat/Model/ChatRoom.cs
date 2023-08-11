@@ -9,6 +9,7 @@ namespace HaasChat.Model
     {
         public string Key { get; set; }
         public string Name { get; set; }
+        public string ImageURL { get; set; }
         public ObservableCollection<string> Admins { get; set; }
 
         public ObservableCollection<string> Partpicatinas { get; set; }

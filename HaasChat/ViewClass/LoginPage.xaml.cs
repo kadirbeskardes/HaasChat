@@ -120,5 +120,10 @@ namespace HaasChat
             }
             return email;
         }
+
+        private void OnRegisterClicked(object sender, EventArgs e)
+        {
+            App.Current.MainPage = new NavigationPage(new SignUp());
+        }
     }
 }

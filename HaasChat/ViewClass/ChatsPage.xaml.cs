@@ -1,4 +1,5 @@
 ﻿using HaasChat.Model;
+using ImageCircle.Forms.Plugin.Abstractions;
 using Rg.Plugins.Popup.Extensions;
 using System;
 using System.Collections.Generic;
@@ -15,20 +16,24 @@ namespace HaasChat
         User user;
         string username = string.Empty;
         DBChat DC = new DBChat();
+
         public ChatsPage()
         {
             InitializeComponent();
             username = Preferences.Get("username", "nullname");
             user = new User();
+            
         }
+
         protected override async void OnAppearing()
         {
             base.OnAppearing();
             user = await DC.getUser(username);
+
             if (user.chats != null)
             {
                 var list = await DC.GetAllChat(user.chats);
-                _lstx.BindingContext = list;
+                _lstx.ItemsSource= list;
             }
             else
             {
@@ -45,17 +50,14 @@ namespace HaasChat
         private async void ListView_Refreshing(object sender, EventArgs e)
         {
             user = await DC.getUser(username);
+
             if (user.chats != null)
             {
                 var list = await DC.GetAllChat(user.chats);
                 _lstx.BindingContext = list;
             }
+
             _lstx.IsRefreshing = false;
-        }
-
-        private void ToolbarItem_Clicked_1(object sender, EventArgs e)
-        {
-
         }
 
         public async void _lstx_ItemSelected(object sender, SelectedItemChangedEventArgs e)

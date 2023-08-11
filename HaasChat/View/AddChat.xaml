@@ -3,15 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HaasChat.AddChat">
     <ContentPage.Content>
-        <TableView Intent="Form">
-            <TableView.Root>
-                <TableSection>
-                    <EntryCell x:Name="_chatName"/>
-                    <ViewCell>
-                        <Button Text="Oluştur" Clicked="Button_Clicked"/>
-                    </ViewCell>
-                </TableSection>
-            </TableView.Root>
-        </TableView>
+        <StackLayout>
+            <Image x:Name="foto" WidthRequest="100" HorizontalOptions="Center" Source="defaultDocx" >
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer
+                Tapped="OnTapGestureRecognizerTapped" />
+                </Image.GestureRecognizers>
+            </Image>
+            <TableView Intent="Form">
+                <TableView.Root>
+                    <TableSection>
+                        <EntryCell x:Name="_chatName"/>
+                        <ViewCell>
+                            <Button Text="Oluştur" Clicked="Button_Clicked"/>
+                        </ViewCell>
+                    </TableSection>
+                </TableView.Root>
+            </TableView>
+        </StackLayout>
+        
     </ContentPage.Content>
 </ContentPage>
