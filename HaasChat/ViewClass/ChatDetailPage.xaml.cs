@@ -29,7 +29,7 @@ namespace HaasChat
             ObservableCollection<string> AdmList = _room.Admins;
             AdminListView.ItemsSource = AdmList;
             ObservableCollection<string> ParList = _room.Partpicatinas;
-            PartpicatinasListView.ItemsSource = ParList;
+            ParticipantesListView.ItemsSource = ParList;
         }
     }
 }

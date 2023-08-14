@@ -23,7 +23,7 @@ namespace HaasChat.Model
 
         public async Task<List<ChatRoom>> GetAllChat(List<string> _chats)
         {
-            return (await client.Child("HaasChatApp").OnceAsync<ChatRoom>())
+            return (await client.Child("HaasChatApp").Child("Groups").OnceAsync<ChatRoom>())
             .Where(x => _chats.Contains(x.Key)).Select((item) => new ChatRoom
             {
                 Key = item.Key,
@@ -37,7 +37,7 @@ namespace HaasChat.Model
 
         public async Task<ChatRoom> GetChat(string key)
         {
-            return await client.Child("HaasChatApp" + "/" + key).OnceSingleAsync<ChatRoom>();
+            return await client.Child("HaasChatApp" + "/" +"Groups"+"/"+ key).OnceSingleAsync<ChatRoom>();
         }
         internal async Task<User> isThereUser(string username)
         {
@@ -55,13 +55,13 @@ namespace HaasChat.Model
 
         public async Task<string> NewChat(string _name, string _username,string url)
         {
-            await client.Child("HaasChatApp" + "/").PostAsync(JsonConvert.SerializeObject(new ChatRoom()
+            await client.Child("HaasChatApp" + "/" + "Groups" + "/").PostAsync(JsonConvert.SerializeObject(new ChatRoom()
             {
                 Name = _name,
                 Admins = new ObservableCollection<string> { _username },
                 ImageURL=url
             }));
-            return (await client.Child("HaasChatApp").OnceAsync<ChatRoom>())
+            return (await client.Child("HaasChatApp" + "/" + "Groups").OnceAsync<ChatRoom>())
             .Where(x => x.Object.Name == _name).Select((item) => new ChatRoom
             {
                 Key = item.Key,
@@ -70,26 +70,26 @@ namespace HaasChat.Model
         }
         public async Task saveChat(ChatRoom _newChat, string _key)
         {
-            await client.Child("HaasChatApp" + "/" + _key).PutAsync(JsonConvert.SerializeObject(_newChat));
+            await client.Child("HaasChatApp" + "/" + "Groups" + "/"  + _key).PutAsync(JsonConvert.SerializeObject(_newChat));
         }
 
         public async Task addParToChat(string _username, string _key)
         {
-            var room = await client.Child("HaasChatApp" + "/" + _key).OnceSingleAsync<ChatRoom>();
+            var room = await client.Child("HaasChatApp" + "/" + "Groups" + "/" + _key).OnceSingleAsync<ChatRoom>();
             if (room.Partpicatinas == null)
             {
                 room.Partpicatinas = new ObservableCollection<string>();
             }
             room.Partpicatinas.Add(_username);
-            await client.Child("HaasChatApp").Child(_key).Child("Partpicatinas").PutAsync(room.Partpicatinas);
+            await client.Child("HaasChatApp" + "/" + "Groups").Child(_key).Child("Partpicatinas").PutAsync(room.Partpicatinas);
         }
         public async Task SendMessage(Chat ch, string _room)
         {
-            await client.Child("HaasChatApp/" + _room + "/Message").PostAsync(ch);
+            await client.Child("HaasChatApp" + "/" + "Groups" + "/" + _room + "/Message").PostAsync(ch);
         }
         public ObservableCollection<Chat> chats(string _room)
         {
-            return client.Child("HaasChatApp/" + _room + "/Message").AsObservable<Chat>().AsObservableCollection();
+            return client.Child("HaasChatApp" + "/" + "Groups" + "/" + _room + "/Message").AsObservable<Chat>().AsObservableCollection();
         }
     }
 }
