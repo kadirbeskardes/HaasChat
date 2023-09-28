@@ -7,7 +7,7 @@ namespace HaasChat.Model
 {
     internal class User
     {
-        public string UserName { get; set; }
+        public string UserName { get; set; }//Dene son
         public string Email { get; set; }
         public List<string> chats { get; set; }
     }
