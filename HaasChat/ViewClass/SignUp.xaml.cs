@@ -45,9 +45,9 @@ namespace HaasChat
                     EnableSsl = true,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential("haaschat50@gmail.com", "jhljakycmckvahmj")
+                    Credentials = new NetworkCredential("help.gringrid@gmail.com", "mpjuxfoqsckyoiam")
                 };
-                using (var message = new MailMessage("haaschat50@gmail.com", mailKont.Text)
+                using (var message = new MailMessage("help.gringrid@gmail.com", mailKont.Text)
                 {
                     Subject = "Confirm e mail",
                     Body = $"{confirm}"

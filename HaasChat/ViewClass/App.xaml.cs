@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using Xamarin.Essentials;
+﻿using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace HaasChat
@@ -10,8 +8,7 @@ namespace HaasChat
         public App()
         {
             InitializeComponent();
-
-            if (Preferences.Get("isLogged","false") == "false")
+            if (Preferences.Get("isLogged", "false") == "false")
             {
                 App.Current.MainPage = new NavigationPage(new LoginPage());
             }
@@ -23,10 +20,12 @@ namespace HaasChat
 
         protected override void OnStart()
         {
+
         }
 
         protected override void OnSleep()
         {
+
         }
 
         protected override void OnResume()

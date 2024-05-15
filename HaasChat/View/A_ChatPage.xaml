@@ -1,17 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:media="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
              xmlns:local="clr-namespace:HaasChat"
              x:Class="HaasChat.A_ChatPage">
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="bilgi" Clicked="ToolbarItem_Clicked_1" Order="Primary"/>
         <ToolbarItem x:Name="add" Text="+" Clicked="ToolbarItem_Clicked" />
     </ContentPage.ToolbarItems>
-    <!-- Your other XAML declarations -->
 
     <ContentPage.Content>
         <StackLayout Spacing="0">
-
             <StackLayout BackgroundColor="LightGray" Padding="10">
                 <ListView x:Name="ChatListView"
                       HasUnevenRows="True"
@@ -22,31 +21,32 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Frame Padding="10"
-                                   Margin="5"
-                                   CornerRadius="15"
-                                   BackgroundColor="{Binding UserName, Converter={StaticResource IsMyMessageToColorConverter}}"
-                                   HorizontalOptions="{Binding UserName, Converter={StaticResource IsMyMessageToHorizontalOptionsConverter}}"
-                                   HasShadow="True">
-
+                                <Frame Padding="10" Margin="5" CornerRadius="15"
+               BackgroundColor="{Binding UserName, Converter={StaticResource IsMyMessageToColorConverter}}"
+               HorizontalOptions="{Binding UserName, Converter={StaticResource IsMyMessageToHorizontalOptionsConverter}}"
+               HasShadow="True">
                                     <StackLayout>
-                                        <Label Text="{Binding UserName}"
-                                               FontAttributes="Bold"
-                                               FontSize="Micro"
-                                               TextColor="{Binding UserName, Converter={StaticResource UsernameToColorConverter}}" />
-                                        <Label Text="{Binding Message}"
-                                               LineBreakMode="WordWrap"
-                                               TextColor="Black"
-                                               FontSize="Body" />
-                                        <Image Source="{Binding ImageUrl}" 
-                                               IsVisible="{Binding ImageUrl, Converter={StaticResource HasImageConverter}}"
-                                               Aspect="AspectFit"
-                                               HeightRequest="200"
-                                               Margin="0,5,0,0" />
-                                        <Label Text="{Binding Date, StringFormat='{0:HH:mm}'}"
-                                               FontSize="Micro"
-                                               TextColor="Gray"
-                                               HorizontalOptions="EndAndExpand" />
+                                        <Label Text="{Binding UserName}" FontAttributes="Bold" FontSize="Micro"
+                       TextColor="{Binding UserName, Converter={StaticResource UsernameToColorConverter}}" />
+                                        <Label Text="{Binding Message}" LineBreakMode="WordWrap" TextColor="Black" FontSize="Body" />
+                                        <Image Source="{Binding ImageURL}" 
+                                               IsVisible="{Binding ImageURL, Converter={StaticResource IsImageConverter}}"
+                       Aspect="AspectFit" HeightRequest="200" Margin="0,5,0,0" />
+                                        <media:MediaElement Source="{Binding VideoURL}" 
+                                    IsVisible="{Binding VideoURL, Converter={StaticResource IsVideoConverter}}"
+                                    Aspect="AspectFill" AutoPlay="False" ShowsPlaybackControls="True" HeightRequest="150" Margin="0,5,0,0" WidthRequest="100" />
+                                        <Label Text="{Binding FileName}" 
+       IsVisible="{Binding FileURL, Converter={StaticResource IsFileConverter}}"
+       FontSize="Micro" TextColor="DarkBlue"
+       LineBreakMode="NoWrap">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnFileTapped" CommandParameter="{Binding FileURL}"/>
+                                            </Label.GestureRecognizers>
+                                        </Label>
+
+
+                                        <Label Text="{Binding Date, StringFormat='{0:HH:mm}'}" FontSize="Micro" TextColor="Gray"
+                       HorizontalOptions="EndAndExpand" />
                                     </StackLayout>
                                 </Frame>
                             </ViewCell>
@@ -57,36 +57,43 @@
 
             <StackLayout Orientation="Horizontal" BackgroundColor="LightGray" Padding="10" Spacing="10">
                 <Frame CornerRadius="20"
-           VerticalOptions="FillAndExpand"
-                                      HorizontalOptions="FillAndExpand"
-           BackgroundColor="White"
-           Padding="0">
+                       VerticalOptions="FillAndExpand"
+                       HorizontalOptions="FillAndExpand"
+                       BackgroundColor="White"
+                       Padding="0">
                     <Entry x:Name="MessageEntry"
-               Placeholder="Bir mesaj yazın..."
-               VerticalOptions="FillAndExpand"
-               HorizontalOptions="FillAndExpand"
-               TextColor="Black"
-               PlaceholderColor="Gray"
-               BackgroundColor="Transparent"/>
+                           Placeholder="Bir mesaj yazın..."
+                           VerticalOptions="FillAndExpand"
+                           HorizontalOptions="FillAndExpand"
+                           TextColor="Black"
+                           PlaceholderColor="Gray"
+                           BackgroundColor="Transparent"/>
                 </Frame>
                 <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="End">
                     <ImageButton Source="send.png"
-                     Clicked="OnSendMessageButtonClicked"
-                     BackgroundColor="DodgerBlue"
-                     WidthRequest="50"
-                     HeightRequest="50"
-                     CornerRadius="25"/>
+                                 Clicked="OnSendMessageButtonClicked"
+                                 BackgroundColor="DodgerBlue"
+                                 WidthRequest="50"
+                                 HeightRequest="50"
+                                 CornerRadius="25"/>
                     <ImageButton Source="sendPicture.png"
-                     Clicked="OnPickImageButtonClicked"
-                     BackgroundColor="DarkGreen"
-                     HeightRequest="50"
-                     WidthRequest="50"
-                     CornerRadius="25"/>
+                                 Clicked="OnPickImageButtonClicked"
+                                 BackgroundColor="DarkGreen"
+                                 HeightRequest="50"
+                                 WidthRequest="50"
+                                 CornerRadius="25"/>
+                    <ImageButton Source="sendVideo.png"
+                                 Clicked="OnPickVideoButtonClicked" 
+                                 BackgroundColor="DarkOrange"
+                                 HeightRequest="50"
+                                 WidthRequest="50"
+                                 CornerRadius="25"/>
+                    <ImageButton Source="attachment.png" Clicked="OnPickFileButtonClicked" BackgroundColor="OrangeRed"
+HeightRequest="50"
+WidthRequest="50"
+CornerRadius="25"/>
                 </StackLayout>
             </StackLayout>
-
-
         </StackLayout>
     </ContentPage.Content>
-
 </ContentPage>

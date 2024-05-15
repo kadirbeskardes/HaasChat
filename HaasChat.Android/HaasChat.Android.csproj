@@ -44,6 +44,11 @@
     <WarningLevel>4</WarningLevel>
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <AotAssemblies>false</AotAssemblies>
+    <EnableLLVM>false</EnableLLVM>
+    <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+    <BundleAssemblies>false</BundleAssemblies>
+    <MandroidI18n />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -84,6 +89,9 @@
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle">
       <Version>3.0.0.5</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.CommunityToolkit">
+      <Version>2.0.6</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2599-pre1" />
     <PackageReference Include="Xamarin.Essentials" Version="1.8.0-preview1" />
   </ItemGroup>
@@ -114,9 +122,6 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\appLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\HaasChat\HaasChat.csproj">
       <Project>{55EF439E-0C1A-4B3C-A974-0A57B319E809}</Project>
       <Name>HaasChat</Name>
@@ -136,6 +141,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\sendPicture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\drawable\attachment.png" />
+    <Content Include="Resources\drawable\icon.png" />
+    <Content Include="Resources\drawable\sendVideo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

@@ -32,14 +32,14 @@ namespace HaasChat
             string downloadLink;
             if (photob)
             {
-                var imageS = new FirebaseStorage("haaschat-9a85d.appspot.com", new FirebaseStorageOptions
+                var imageS = new FirebaseStorage("grid-grid-beta1.appspot.com", new FirebaseStorageOptions
                 { ThrowOnCancel = true }).Child("chatRoom")
                 .Child($"{Guid.NewGuid()}.jpg").PutAsync(await photo.OpenReadAsync());
                 downloadLink = await imageS;
             }
             else
             {
-                downloadLink = "https://firebasestorage.googleapis.com/v0/b/haaschat-9a85d.appspot.com/o/chatRoom%2Fmeeting.jpeg?alt=media";
+                downloadLink = "https://firebasestorage.googleapis.com/v0/b/grid-grid-beta1.appspot.com/o/chatRoom%2Fmeeting.jpeg?alt=media";
             }
             
             user.chats.Add(await db.NewChat(_chatName.Text,user.UserName,downloadLink));

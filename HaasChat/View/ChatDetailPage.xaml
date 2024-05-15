@@ -20,12 +20,12 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" BackgroundColor="LightGray" Padding="20">
             <Label Text="Adminler" FontSize="24" FontAttributes="Bold" />
-            <ListView x:Name="AdminListView" ItemsSource="{Binding AdmList}" SelectionMode="None">
+            <ListView x:Name="AdminListView" ItemsSource="{Binding AdmList}" RowHeight="80" HasUnevenRows="True"  SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
+                        <ViewCell Height="80">
                             <Frame BorderColor="Black">
-                                <StackLayout Orientation="Horizontal">
+                                <StackLayout HorizontalOptions="StartAndExpand" VerticalOptions="Center" Spacing="0">
                                     <Label Text="{Binding .}" />
                                 </StackLayout>
                             </Frame>

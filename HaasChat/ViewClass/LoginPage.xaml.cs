@@ -20,7 +20,14 @@ namespace HaasChat
 
         public LoginPage()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("m", ex.ToString(), "ok");
+            }
         }
 
         private async void OnLoginClicked(object sender, EventArgs e)
@@ -53,10 +60,10 @@ namespace HaasChat
                     EnableSsl = true,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential("haaschat50@gmail.com", "jhljakycmckvahmj")
+                    Credentials = new NetworkCredential("help.gringrid@gmail.com", "mpjuxfoqsckyoiam")
                 };
 
-                using (var message = new MailMessage("haaschat50@gmail.com", userEmail)
+                using (var message = new MailMessage("help.gringrid@gmail.com", userEmail)
                 {
                     Subject = "Confirm e mail",
                     Body = $"{confirm}"

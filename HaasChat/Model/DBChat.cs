@@ -18,7 +18,7 @@ namespace HaasChat.Model
 
         public DBChat()
         {
-            client = new FirebaseClient("https://haaschat-9a85d-default-rtdb.europe-west1.firebasedatabase.app/");
+            client = new FirebaseClient("https://grid-grid-beta1-default-rtdb.europe-west1.firebasedatabase.app/");
         }
 
         public async Task<List<ChatRoom>> GetAllChat(List<string> _chats)
