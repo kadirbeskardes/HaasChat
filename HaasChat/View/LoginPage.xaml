@@ -6,7 +6,7 @@
         <StackLayout BackgroundColor="#f7f7f7" Padding="20" VerticalOptions="CenterAndExpand">
             <Frame BackgroundColor="White" Padding="20" CornerRadius="10" HasShadow="True">
                 <StackLayout Spacing="15">
-                    <Image Source="icon.png" HorizontalOptions="CenterAndExpand"/>
+                    <Image Source="icon.png" HorizontalOptions="CenterAndExpand" WidthRequest="100" HeightRequest="100"/>
 
                     <Entry x:Name="usernameEntry" Placeholder="Kullanıcı Adı" TextColor="Black" PlaceholderColor="#808080" BackgroundColor="White"  HeightRequest="40"/>
                     <Button x:Name="girisYap" Text="Giriş Yap" Clicked="OnLoginClicked" BackgroundColor="#007bff" TextColor="White" CornerRadius="8" HeightRequest="40"/>

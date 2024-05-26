@@ -364,7 +364,6 @@ namespace HaasChat
         }
     }
 
-    // ViewModel ya da Code-behind'da
 
 
     public class IsMyMessageToHorizontalOptionsConverter : IValueConverter

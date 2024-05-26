@@ -35,12 +35,12 @@
             </ListView>
 
             <Label Text="Katılımcılar" FontSize="24" FontAttributes="Bold" />
-            <ListView x:Name="ParticipantesListView" ItemsSource="{Binding ParList}" SelectionMode="None">
+            <ListView x:Name="ParticipantesListView" ItemsSource="{Binding ParList}" RowHeight="80" HasUnevenRows="True"  SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
+                        <ViewCell Height="80">
                             <Frame BorderColor="Black">
-                                <StackLayout Orientation="Horizontal">
+                                <StackLayout HorizontalOptions="StartAndExpand" VerticalOptions="Center" Spacing="0">
                                     <Label Text="{Binding .}" />
                                 </StackLayout>
                             </Frame>
