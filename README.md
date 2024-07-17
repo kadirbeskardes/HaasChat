@@ -1,6 +1,6 @@
 ## Kurulum
 
-HaasChat'i kurmak ve çalıştırmak için aşağıdaki adımları izleyin:
+GrinGrid(HaasChat)'i kurmak ve çalıştırmak için aşağıdaki adımları izleyin:
 
 1. Bu depoyu klonlayın:
     ```bash
